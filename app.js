@@ -4,6 +4,9 @@ const morgan = require("morgan");
 const cors = require("cors");
 const mongoose = require('mongoose'); //Paquete para usar mongo
 
+//Puesto para desplegar en producción o puerto local
+const port = process.env.PORT || 3000;
+
 const router = require("./routes");
 const { notFoundMiddleware } = require("./middleware/notFound")
 const { errorHandlerMiddleware } = require("./middleware/errorHandler")
@@ -40,7 +43,8 @@ app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 //El método listen escucha las peticiones, se le define un puerto donde el servidor se va a alojar
 //Por lo general es superior a 3000 porque los inferiores los usa el sistema operatvo para otras tareas
-app.listen(3000, () => {
+
+app.listen(port, () => {
     console.log(process.env.CONNECTION_MONGOBD)
     mongoose.connect(process.env.CONNECTION_MONGOBD)
         .then(() => console.log('DB Connected!'))
